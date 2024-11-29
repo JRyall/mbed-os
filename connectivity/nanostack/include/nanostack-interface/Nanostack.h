@@ -40,11 +40,11 @@ public:
     class PPPInterface;
 
     /* Implement OnboardNetworkStack method */
-    nsapi_error_t add_ethernet_interface(EMAC &emac, bool default_if, OnboardNetworkStack::Interface **interface_out) override;
-    nsapi_error_t add_ethernet_interface(EMAC &emac, bool default_if, OnboardNetworkStack::Interface **interface_out, const uint8_t *mac_addr) override;
+    nsapi_error_t add_ethernet_interface(EMAC &emac, bool default_if, OnboardNetworkStack::Interface **interface_out, NetworkInterface *user_network_interface = NULL) override;
+    nsapi_error_t add_ethernet_interface(EMAC &emac, bool default_if, OnboardNetworkStack::Interface **interface_out, const uint8_t *mac_addr, NetworkInterface *user_network_interface = NULL) override;
 
     /* Local variant with stronger typing and manual address specification */
-    nsapi_error_t add_ethernet_interface(EMAC &emac, bool default_if, Nanostack::EthernetInterface **interface_out, const uint8_t *mac_addr = NULL);
+    nsapi_error_t add_ethernet_interface(EMAC &emac, bool default_if, Nanostack::EthernetInterface **interface_out, const uint8_t *mac_addr = NULL, NetworkInterface *user_network_interface = NULL);
 
     nsapi_error_t add_ppp_interface(PPP &ppp, bool default_if, OnboardNetworkStack::Interface **interface_out) override;
 
@@ -122,7 +122,7 @@ protected:
      *  NSAPI_ERROR_NO_SOCKET is returned if no socket is available.
      *
      *  @param handle   Destination for the handle to a newly created socket
-     *  @param proto    Protocol of socket to open, NSAPI_TCP or NSAPI_UDP
+     *  @param proto    Protocol of socket to open, NSAPI_TCP, NSAPI_UDP or NSAPI_ICMP
      *  @return         0 on success, negative error code on failure
      */
     nsapi_error_t socket_open(void **handle, nsapi_protocol_t proto) override;
